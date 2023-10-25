@@ -1,0 +1,25 @@
+{
+  "name": "versionmaster",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "dev": "nodemon main.js"
+  },
+  "keywords": [],
+  "author": "Srijit Mondal",
+  "license": "ISC",
+  "type": "module",
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "bin": {
+    "nit": "main.js"
+  },
+  "dependencies": {
+    "bufferpack": "^0.0.6",
+    "dotenv": "^16.3.1",
+    "fs-extra": "^11.1.1",
+    "js-sha1": "^0.6.0"
+  }
+}
