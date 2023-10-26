@@ -4,7 +4,7 @@ export const IGNORE_LIST = [
   ".",
   "..",
   "node_modules",
-  "git",
+  "nit",
   ".git",
 ];
 export const COMMANDS = {
@@ -12,4 +12,10 @@ export const COMMANDS = {
   COMMIT: "commit",
   ADD: "add",
   STATUS: "status",
+};
+
+export const MESSAGE_TYPES = {
+  SUCCESS: "success",
+  ERROR: "error",
+  NEUTRAL: "neutral",
 };

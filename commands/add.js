@@ -8,18 +8,22 @@ import { Workspace } from "../lib/Workspace.js";
 export async function add(folderPath, newFilePath) {
   try {
     const workspace = new Workspace(folderPath);
-    const repoPath = path.join(folderPath, "git");
+    const repoPath = path.join(folderPath, "nit");
     const databasePath = path.resolve(repoPath, "objects");
     const indexPath = path.resolve(repoPath, "index");
-    const filePath = path.resolve(folderPath, newFilePath);
-    const database = new Database(databasePath);
-    const data = await workspace.readFile(filePath);
-    const blob = new Blob(data);
-    await database.store(blob);
     const index = new Index(indexPath);
-    await index.loadForUpdate();
-    index.add(newFilePath, blob.oid, fs.lstatSync(filePath));
-    await index.writeUpdates();
+    const filePath = path.resolve(folderPath, newFilePath);
+    if (workspace.exists(newFilePath)) {
+      const database = new Database(databasePath);
+      const data = await workspace.readFile(filePath);
+      const blob = new Blob(data);
+      await database.store(blob);
+      await index.loadForUpdate();
+      index.add(newFilePath, blob.oid, fs.lstatSync(filePath));
+      await index.writeUpdates();
+    } else {
+      //
+    }
   } catch (error) {
     console.log(error);
   }

@@ -3,7 +3,7 @@ import { folderList } from "../utils/variables.js";
 import path from "path";
 
 export async function init(folderPath) {
-  const repoFolderPath = path.resolve(folderPath, "git");
+  const repoFolderPath = path.resolve(folderPath, "nit");
   const { success: rootFolderSuccess, rootFolderMessage } =
     await createDirectory(repoFolderPath);
   if (rootFolderSuccess) {
@@ -16,6 +16,6 @@ export async function init(folderPath) {
       }
     });
   } else {
-    console.log("Root folder creatiion failed -> ", rootFolderMessage);
+    console.log("Root folder creatiion failed -> -> ", rootFolderMessage);
   }
 }

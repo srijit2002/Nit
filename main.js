@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 import path, { dirname } from "path";
 import { fileURLToPath } from "url";
-import { COMMANDS } from "./utils/variables.js";
-
+import { COMMANDS, MESSAGE_TYPES } from "./utils/variables.js";
+import { isValidRepo } from "./utils/isValidRepo.js";
+import { printMessage } from "./utils/printMessage.js";
 import { init, commit, add, status } from "./commands/index.js";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -16,17 +17,30 @@ switch (command) {
     init(repoFolderPath);
     break;
   case COMMANDS.COMMIT:
-    commit(repoFolderPath, param);
+    if (await isValidRepo(repoFolderPath)) {
+      commit(repoFolderPath, param);
+    } else {
+      printMessage("fatal: Not a valid nit repository", MESSAGE_TYPES.NEUTRAL);
+    }
     break;
 
   case COMMANDS.ADD:
-    add(repoFolderPath, param);
+    if (await isValidRepo(repoFolderPath)) {
+      add(repoFolderPath, path.join(...param.split("/")));
+    } else {
+      printMessage("fatal: Not a valid nit repository", MESSAGE_TYPES.NEUTRAL);
+    }
     break;
 
   case COMMANDS.STATUS:
-    status(repoFolderPath);
+    if (await isValidRepo(repoFolderPath)) {
+      status(repoFolderPath);
+    } else {
+      printMessage("fatal: Not a valid nit repository", MESSAGE_TYPES.NEUTRAL);
+    }
     break;
 
   default:
+    console.log("Dekh le....");
     break;
 }

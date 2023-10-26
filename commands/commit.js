@@ -14,20 +14,26 @@ dotenv.config();
 function isExec(p) {
   return !!(fs.statSync(p).mode & fs.constants.S_IXUSR);
 }
+const REGULAR_MODE = "100644";
+const EXECUTABLE_MODE = "100755";
 export async function commit(folderPath, message) {
   try {
-    const repoPath = path.resolve(folderPath, "git");
+    const repoPath = path.resolve(folderPath, "nit");
     const indexPath = path.resolve(repoPath, "index");
     const databasePath = path.resolve(repoPath, "objects");
     let database = new Database(databasePath);
     const index = new Index(indexPath);
-    index.loadForUpdate();
+    await index.loadForUpdate();
     const refs = new Refs(repoPath);
     const parent = await refs.readHead();
     const entries = [];
     for (let [absolutePath, entry] of index.entries) {
       entries.push(
-        new Entry(path.basename(absolutePath), entry.oid, isExec(absolutePath))
+        new Entry(
+          absolutePath,
+          entry.oid,
+          isExec(absolutePath) ? EXECUTABLE_MODE : REGULAR_MODE
+        )
       );
     }
     const root = Tree.build(entries);
