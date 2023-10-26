@@ -1,6 +1,5 @@
 import fs from "fs-extra";
 import path from "path";
-import dotenv from "dotenv";
 import { Database } from "../lib/Database.js";
 import { Entry } from "../lib/Entry.js";
 import { Tree } from "../lib/Tree.js";
@@ -8,8 +7,9 @@ import { Author } from "../lib/Author.js";
 import { Commit } from "../lib/Commit.js";
 import { Refs } from "../lib/Refs.js";
 import { Index } from "../lib/Index.js";
-
-dotenv.config();
+import { parseConfig } from "../utils/parseConfig.js";
+import { Workspace } from "../lib/Workspace.js";
+import { printMessage } from "../utils/printMessage.js";
 
 function isExec(p) {
   return !!(fs.statSync(p).mode & fs.constants.S_IXUSR);
@@ -19,6 +19,33 @@ const EXECUTABLE_MODE = "100755";
 export async function commit(folderPath, message) {
   try {
     const repoPath = path.resolve(folderPath, "nit");
+    const workspace = new Workspace(path.resolve(repoPath));
+    if (!workspace.exists("config")) {
+      printMessage(`*** Please tell me who you are.
+      Run
+        git config user.email "you@example.com"
+        git config user.name "Your Name"`);
+      return;
+    }
+    const config = parseConfig(
+      fs
+        .readFileSync(path.resolve(folderPath, "nit", "config"))
+        .toString("utf8")
+    );
+
+    const authorName = config?.user?.name;
+    const authorEmail = config?.user?.email;
+    if (!authorName || !authorEmail) {
+      printMessage(`*** Please tell me who you are.`);
+      printMessage(`\tRun`);
+      if (!authorName) {
+        printMessage(`\t   nit config user.name "Your Name"`);
+      } if(!authorEmail) {
+        printMessage(`\t   nit config user.email "you@example.com"`);
+      }
+
+      return;
+    }
     const indexPath = path.resolve(repoPath, "index");
     const databasePath = path.resolve(repoPath, "objects");
     let database = new Database(databasePath);
@@ -38,12 +65,11 @@ export async function commit(folderPath, message) {
     }
     const root = Tree.build(entries);
     root.traverse((tree) => database.store(tree));
-    const authorName = process.env.GIT_AUTHOR_NAME;
-    const authorEmail = process.env.GIT_AUTHOR_EMAIL;
     const author = new Author(authorName, authorEmail, Date.now());
     const commit = new Commit(parent, root.oid, author.toString(), message);
     await database.store(commit);
     await refs.updateHead(commit.oid);
+    printMessage(commit.toString());
   } catch (error) {
     console.log(error);
   }

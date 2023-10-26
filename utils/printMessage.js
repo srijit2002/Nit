@@ -1,7 +1,7 @@
 import chalk from "chalk";
 import { MESSAGE_TYPES } from "./variables.js";
 
-export function printMessage(message, type) {
+export function printMessage(message, type = MESSAGE_TYPES.NEUTRAL) {
   if (type === MESSAGE_TYPES.ERROR) {
     console.log(chalk.red(message));
   }

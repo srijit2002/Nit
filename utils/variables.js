@@ -12,6 +12,7 @@ export const COMMANDS = {
   COMMIT: "commit",
   ADD: "add",
   STATUS: "status",
+  CONFIG: "config",
 };
 
 export const MESSAGE_TYPES = {

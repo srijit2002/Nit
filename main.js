@@ -5,7 +5,7 @@ import { fileURLToPath } from "url";
 import { COMMANDS, MESSAGE_TYPES } from "./utils/variables.js";
 import { isValidRepo } from "./utils/isValidRepo.js";
 import { printMessage } from "./utils/printMessage.js";
-import { init, commit, add, status } from "./commands/index.js";
+import { init, commit, add, status, config } from "./commands/index.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -27,7 +27,7 @@ program
 
 program
   .command(COMMANDS.ADD)
-  .argument("<paths...>", "File paths")
+  .argument("<paths...>", "Space separated file paths")
   .description("Add changes in the working directory to the staging area")
   .action(async (paths) => {
     if (isValidRepo(repoFolderPath)) {
@@ -63,6 +63,17 @@ program
     } else {
       printMessage("fatal: Not a valid nit repository", MESSAGE_TYPES.NEUTRAL);
     }
+  });
+
+program
+  .command(COMMANDS.CONFIG)
+  .argument("<key>")
+  .argument("[value]")
+  .description(
+    "Displays the state of the working directory and the staging area."
+  )
+  .action(async (key, value) => {
+    await config(repoFolderPath, key, value);
   });
 
 program.parse(process.argv);
