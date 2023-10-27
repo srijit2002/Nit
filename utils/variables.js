@@ -14,12 +14,14 @@ export const COMMANDS = {
   STATUS: "status",
   CONFIG: "config",
   DIFF: "diff",
+  LOG: "log",
 };
 
 export const MESSAGE_TYPES = {
   SUCCESS: "success",
   ERROR: "error",
   NEUTRAL: "neutral",
+  INFORMATION: "information",
 };
 
 export const DIFF_TYPES = {

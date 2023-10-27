@@ -5,7 +5,15 @@ import { fileURLToPath } from "url";
 import { COMMANDS, MESSAGE_TYPES } from "./utils/variables.js";
 import { isValidRepo } from "./utils/isValidRepo.js";
 import { printMessage } from "./utils/printMessage.js";
-import { init, commit, add, status, config, diff } from "./commands/index.js";
+import {
+  init,
+  commit,
+  add,
+  status,
+  config,
+  diff,
+  log,
+} from "./commands/index.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -81,7 +89,22 @@ program
   .argument("[paths...]", "Space separated file paths")
   .description("Shows changes between the working directory and the index")
   .action(async (paths) => {
-    await diff(repoFolderPath,paths);
+    await diff(repoFolderPath, paths);
+  });
+
+program
+  .command(COMMANDS.DIFF)
+  .argument("[paths...]", "Space separated file paths")
+  .description("Shows changes between the working directory and the index")
+  .action(async (paths) => {
+    await diff(repoFolderPath, paths);
+  });
+
+program
+  .command(COMMANDS.LOG)
+  .description("Pretty-print the contents of the commit logs")
+  .action(async () => {
+    await log(repoFolderPath);
   });
 
 program.parse(process.argv);
