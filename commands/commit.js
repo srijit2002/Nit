@@ -23,8 +23,8 @@ export async function commit(folderPath, message) {
     if (!workspace.exists("config")) {
       printMessage(`*** Please tell me who you are.
       Run
-        git config user.email "you@example.com"
-        git config user.name "Your Name"`);
+        nit config user.email "you@example.com"
+        nit config user.name "Your Name"`);
       return;
     }
     const config = parseConfig(

@@ -21,6 +21,7 @@
     "chalk": "^5.3.0",
     "commander": "^11.1.0",
     "dotenv": "^16.3.1",
+    "fast-array-diff": "^1.1.0",
     "fs-extra": "^11.1.1",
     "js-sha1": "^0.6.0",
     "stack-trace": "^1.0.0-pre2"

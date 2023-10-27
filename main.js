@@ -5,7 +5,7 @@ import { fileURLToPath } from "url";
 import { COMMANDS, MESSAGE_TYPES } from "./utils/variables.js";
 import { isValidRepo } from "./utils/isValidRepo.js";
 import { printMessage } from "./utils/printMessage.js";
-import { init, commit, add, status, config } from "./commands/index.js";
+import { init, commit, add, status, config, diff } from "./commands/index.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -74,6 +74,14 @@ program
   )
   .action(async (key, value) => {
     await config(repoFolderPath, key, value);
+  });
+
+program
+  .command(COMMANDS.DIFF)
+  .argument("[paths...]", "Space separated file paths")
+  .description("Shows changes between the working tree and the index or a tree")
+  .action(async (paths) => {
+    await diff(repoFolderPath,paths);
   });
 
 program.parse(process.argv);

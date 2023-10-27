@@ -13,10 +13,17 @@ export const COMMANDS = {
   ADD: "add",
   STATUS: "status",
   CONFIG: "config",
+  DIFF: "diff",
 };
 
 export const MESSAGE_TYPES = {
   SUCCESS: "success",
   ERROR: "error",
   NEUTRAL: "neutral",
+};
+
+export const DIFF_TYPES = {
+  REMOVED: "remove",
+  ADDED: "add",
+  UNCHANGED: "unchange",
 };

@@ -31,7 +31,7 @@ async function listUncommitedFiles(folderPath, entries) {
   return true;
 }
 
-async function lisUntrackedFiles(untrackedFiles = []) {
+async function listUntrackedFiles(untrackedFiles = []) {
   printMessage("\nUntracked files:");
   printMessage('\t(use "nit add <file>..." to include)\n');
   for (let file of untrackedFiles) {
@@ -73,7 +73,7 @@ async function listUnstagedAndUntrackedFiles(folderPath, entries, workspace) {
     isWorkingTreeClean = false;
   }
   if (untrackedFiles.length > 0) {
-    await lisUntrackedFiles(untrackedFiles);
+    await listUntrackedFiles(untrackedFiles);
     isWorkingTreeClean = false;
   }
   return isWorkingTreeClean;
