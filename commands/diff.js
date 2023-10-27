@@ -33,6 +33,7 @@ function formatDiff(oldData, newData) {
 }
 async function listUnstagedFiles(entries, workspace, database, paths) {
   let unStagedFiles = [];
+  console.log(paths);
   let files = await workspace.listFiles();
   for (let file of files) {
     if (entries.has(file) && (paths.size === 0 || paths.has(file))) {
@@ -56,7 +57,7 @@ async function listUnstagedFiles(entries, workspace, database, paths) {
   return unStagedFiles;
 }
 function printDiff(diffs, fileName, oldData, newData) {
-  printMessage(`\n@@ ${fileName}`);
+  printMessage(`\n@@ ${fileName}\n`);
   for (let { type, index } of diffs) {
     if (type === DIFF_TYPES.ADDED) {
       printMessage(`+ ${newData[index]}`, MESSAGE_TYPES.SUCCESS);
@@ -80,7 +81,7 @@ export async function diff(repoFolderPath, paths = []) {
       new Map(index.entries),
       workspace,
       database,
-      new Set(paths)
+      new Set(paths.map(p=>p.split("/").join(path.sep)))
     );
     for (let unstagedFile of unStagedFiles) {
       const diff = formatDiff(...unstagedFile.data);
