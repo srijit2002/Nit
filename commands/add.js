@@ -1,9 +1,28 @@
-import fs from "fs-extra";
 import path from "path";
 import { Database } from "../lib/Database.js";
 import { Blob } from "../lib/Blob.js";
 import { Index } from "../lib/Index.js";
 import { Workspace } from "../lib/Workspace.js";
+import { printMessage } from "../utils/printMessage.js";
+import { MESSAGE_TYPES } from "../utils/variables.js";
+
+async function addDirectories(workspace, relativePath, database, index) {
+  try {
+    if (workspace.isFile(relativePath)) {
+      const data = await workspace.readFile(relativePath);
+      const blob = new Blob(data);
+      await database.store(blob);
+      index.add(relativePath, blob.oid, workspace.stat(relativePath));
+    } else {
+      let files = await workspace.listFiles(relativePath);
+      for (let file of files) {
+        await addDirectories(workspace, file, database, index);
+      }
+    }
+  } catch (error) {
+    printMessage(error.message, MESSAGE_TYPES.ERROR);
+  }
+}
 
 export async function add(folderPath, paths = []) {
   try {
@@ -16,12 +35,8 @@ export async function add(folderPath, paths = []) {
     await index.loadForUpdate();
 
     for (let newFilePath of paths) {
-      const filePath = path.resolve(folderPath, newFilePath);
       if (workspace.exists(newFilePath)) {
-        const data = await workspace.readFile(filePath);
-        const blob = new Blob(data);
-        await database.store(blob);
-        index.add(newFilePath, blob.oid, fs.lstatSync(filePath));
+        await addDirectories(workspace, newFilePath, database, index);
       } else {
         //
       }

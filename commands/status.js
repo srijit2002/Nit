@@ -5,6 +5,8 @@ import path from "path";
 import sha1 from "js-sha1";
 import { loadTree } from "../utils/loadTree.js";
 import chalk from "chalk";
+import { printMessage } from "../utils/printMessage.js";
+import { MESSAGE_TYPES } from "../utils/variables.js";
 
 async function listUncommitedFiles(folderPath, entries) {
   let uncommitedFiles = [];
@@ -19,21 +21,21 @@ async function listUncommitedFiles(folderPath, entries) {
     }
   }
   if (uncommitedFiles.length > 0) {
-    console.log("\nChanges to be commited :");
-    console.log('\t(use "nit commit <message>..." to commit)\n');
+    printMessage("\nChanges to be commited :");
+    printMessage('\t(use "nit commit <message>..." to commit)\n');
     for (let entry of uncommitedFiles) {
-      console.log(entry);
+      printMessage(entry);
     }
-    return true;
+    return false;
   }
-  return false;
+  return true;
 }
 
 async function lisUntrackedFiles(untrackedFiles = []) {
-  console.log("\nUntracked files:");
-  console.log('\t(use "nit add <file>..." to include)\n');
+  printMessage("\nUntracked files:");
+  printMessage('\t(use "nit add <file>..." to include)\n');
   for (let file of untrackedFiles) {
-    console.log(chalk.red("\t", file));
+    printMessage(`\t${file}`, MESSAGE_TYPES.ERROR);
   }
 }
 
@@ -60,13 +62,13 @@ async function listUnstagedAndUntrackedFiles(folderPath, entries, workspace) {
   }
 
   if (unStagedFiles.length > 0 || entries.size > 0) {
-    console.log("\nChanges not staged for commit:");
-    console.log('\t(use "nit add <file>..." to include)\n');
+    printMessage("\nChanges not staged for commit:");
+    printMessage('\t(use "nit add <file>..." to include)\n');
     for (let file of unStagedFiles) {
-      console.log(chalk.red("\tmodified: ", file));
+      printMessage(`\tmodified: ${file}`, MESSAGE_TYPES.ERROR);
     }
     for (let file of entries.keys()) {
-      console.log(chalk.red("\tdeleted: ", file));
+      printMessage(`\tdeleted: ${file}`, MESSAGE_TYPES.ERROR);
     }
     isWorkingTreeClean = false;
   }
@@ -93,7 +95,7 @@ export async function status(folderPath) {
       workspace
     );
     if (isWorkingTreeClean) {
-      console.log("Nothing to commit, working tree clean");
+      printMessage("Nothing to commit, working tree clean");
     }
   } catch (error) {
     console.log(error);
