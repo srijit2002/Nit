@@ -65,7 +65,7 @@ async function listUnstagedAndUntrackedFiles(folderPath, entries, workspace) {
     printMessage("\nChanges not staged for commit:");
     printMessage('\t(use "nit add <file>..." to include)\n');
     for (let file of unStagedFiles) {
-      printMessage(`\tmodified: ${file}`, MESSAGE_TYPES.ERROR);
+      printMessage(`\tmodified: ${file}`, MESSAGE_TYPES.SUCCESS);
     }
     for (let file of entries.keys()) {
       printMessage(`\tdeleted: ${file}`, MESSAGE_TYPES.ERROR);

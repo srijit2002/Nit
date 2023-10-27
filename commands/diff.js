@@ -11,24 +11,31 @@ import sha1 from "js-sha1";
 function formatDiff(oldData, newData) {
   const formatted = [];
   const patches = getPatch(oldData, newData);
+  let oldIndex = 0;
+  let newIndex = 0;
   patches.forEach(({ type, oldPos, newPos, items }) => {
+    while (oldIndex < oldPos && newIndex < newPos) {
+      formatted.push({ type: DIFF_TYPES.UNCHANGED, index: newIndex++ });
+    }
     if (type === DIFF_TYPES.ADDED) {
       for (let _ of items) {
         formatted.push({ type, index: newPos++ });
+        newIndex++;
       }
     } else {
       for (let _ of items) {
         formatted.push({ type, index: oldPos++ });
+        oldIndex++;
       }
     }
   });
   return formatted;
 }
-async function listUnstagedFiles(entries, workspace, database) {
+async function listUnstagedFiles(entries, workspace, database, paths) {
   let unStagedFiles = [];
   let files = await workspace.listFiles();
   for (let file of files) {
-    if (entries.has(file)) {
+    if (entries.has(file) && (paths.size === 0 || paths.has(file))) {
       const entry = entries.get(file);
       const data = await workspace.readFile(file);
       const blob = new Blob(data);
@@ -49,7 +56,7 @@ async function listUnstagedFiles(entries, workspace, database) {
   return unStagedFiles;
 }
 function printDiff(diffs, fileName, oldData, newData) {
-  printMessage(`\n@@ ${fileName} @@`);
+  printMessage(`\n@@ ${fileName}`);
   for (let { type, index } of diffs) {
     if (type === DIFF_TYPES.ADDED) {
       printMessage(`+ ${newData[index]}`, MESSAGE_TYPES.SUCCESS);
@@ -61,7 +68,7 @@ function printDiff(diffs, fileName, oldData, newData) {
   }
 }
 
-export async function diff(repoFolderPath, filePath) {
+export async function diff(repoFolderPath, paths = []) {
   try {
     const folderPath = path.resolve(repoFolderPath, "nit");
     let database = new Database(path.resolve(folderPath, "objects"));
@@ -72,7 +79,8 @@ export async function diff(repoFolderPath, filePath) {
     const unStagedFiles = await listUnstagedFiles(
       new Map(index.entries),
       workspace,
-      database
+      database,
+      new Set(paths)
     );
     for (let unstagedFile of unStagedFiles) {
       const diff = formatDiff(...unstagedFile.data);

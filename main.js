@@ -79,7 +79,7 @@ program
 program
   .command(COMMANDS.DIFF)
   .argument("[paths...]", "Space separated file paths")
-  .description("Shows changes between the working tree and the index or a tree")
+  .description("Shows changes between the working directory and the index")
   .action(async (paths) => {
     await diff(repoFolderPath,paths);
   });
