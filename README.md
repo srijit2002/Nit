@@ -20,9 +20,9 @@ To get started, make sure you have latest version of Node.js installed. Then, fo
    npm install
    ```
 5. Run the following command
-```
+    ```
     npm link
-``` 
+    ``` 
 # Commands and Use Cases
 ### 1. Initialize a Repository  
 Initialize an empty Nit repository in your project directory.
