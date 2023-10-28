@@ -9,7 +9,7 @@ async function restoreAllFiles(obj, workspace, relativePath, database) {
     if (obj.type === "blob") {
       await workspace.ensureFile(relativePath);
       await workspace.writeFile(relativePath, obj.data);
-      printMessage(`${relativePath} has been restored successfully\n`);
+      printMessage(`${relativePath} has been restored successfully`);
     } else {
       for (let [fileName, entry] of obj.entries) {
         const curObj = await database.loadObject(entry.oid);
@@ -33,7 +33,7 @@ export async function checkout(folderPath, filePaths = [], _commitId) {
     const database = new Database(path.resolve(repoPath, "objects"));
     let commitId =
       _commitId || (await workspace.readFile("nit/HEAD")).toString("utf8");
-    console.log(commitId);
+    printMessage(commitId + "\n");
     const commitTreeOid = (await database.loadObject(commitId)).tree;
     const commitTree = await database.loadObject(commitTreeOid);
 
@@ -52,7 +52,7 @@ export async function checkout(folderPath, filePaths = [], _commitId) {
       if (isValidFile) {
         restoreAllFiles(obj, workspace, file, database);
       } else {
-        printMessage(`${file} is not the part of commit\n`);
+        printMessage(`${file} is not the part of commit`);
       }
     }
   } catch (error) {

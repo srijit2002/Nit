@@ -38,7 +38,7 @@ export async function add(folderPath, paths = []) {
       if (workspace.exists(newFilePath)) {
         await addDirectories(workspace, newFilePath, database, index);
       } else {
-        //
+        index.remove(newFilePath);
       }
       await index.writeUpdates();
     }

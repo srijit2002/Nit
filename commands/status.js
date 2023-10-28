@@ -10,15 +10,19 @@ import { MESSAGE_TYPES } from "../utils/variables.js";
 
 async function listUncommitedFiles(folderPath, entries) {
   let uncommitedFiles = [];
-  let treeEntries = await loadTree(folderPath);
+  let treeEntries = new Map(await loadTree(folderPath));
   for (let [file, entry] of entries) {
     if (treeEntries?.has(file)) {
       if (entry.oid !== treeEntries.get(file)) {
         uncommitedFiles.push(chalk.green("\tmodified: ", file));
       }
+      treeEntries.delete(file);
     } else {
       uncommitedFiles.push(`\tAdded:  ${file}`);
     }
+  }
+  for (let [treeEntry, _] of treeEntries) {
+    uncommitedFiles.push(chalk.red("\tdeleted: ", treeEntry));
   }
   if (uncommitedFiles.length > 0) {
     printMessage("\nChanges to be commited :");
