@@ -85,7 +85,7 @@ async function listUnstagedAndUntrackedFiles(folderPath, entries, workspace) {
 export async function status(folderPath) {
   try {
     const workspace = new Workspace(folderPath);
-    const indexPath = path.resolve(folderPath, "nit", "index");
+    const indexPath = path.resolve(folderPath, ".nit", "index");
     const index = new Index(indexPath);
     await index.loadForUpdate();
     let isWorkingTreeClean = true;

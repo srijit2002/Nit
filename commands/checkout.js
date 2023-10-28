@@ -28,11 +28,11 @@ async function restoreAllFiles(obj, workspace, relativePath, database) {
 
 export async function checkout(folderPath, filePaths = [], _commitId) {
   try {
-    const repoPath = path.resolve(folderPath, "nit");
+    const repoPath = path.resolve(folderPath, ".nit");
     const workspace = new Workspace(folderPath);
     const database = new Database(path.resolve(repoPath, "objects"));
     let commitId =
-      _commitId || (await workspace.readFile("nit/HEAD")).toString("utf8");
+      _commitId || (await workspace.readFile(".nit/HEAD")).toString("utf8");
     printMessage(commitId + "\n");
     const commitTreeOid = (await database.loadObject(commitId)).tree;
     const commitTree = await database.loadObject(commitTreeOid);

@@ -18,7 +18,7 @@ async function printTree(database, relativePath, oid, entries) {
 
 export async function loadTree(folderPath) {
   try {
-    const repoPath = path.resolve(folderPath, "nit");
+    const repoPath = path.resolve(folderPath, ".nit");
     const database = new Database(path.resolve(repoPath, "objects"));
     const workspace = new Workspace(repoPath);
     if (!workspace.exists("Head")) return;

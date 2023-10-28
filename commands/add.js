@@ -27,7 +27,7 @@ async function addDirectories(workspace, relativePath, database, index) {
 export async function add(folderPath, paths = []) {
   try {
     const workspace = new Workspace(folderPath);
-    const repoPath = path.join(folderPath, "nit");
+    const repoPath = path.join(folderPath, ".nit");
     const databasePath = path.resolve(repoPath, "objects");
     const indexPath = path.resolve(repoPath, "index");
     const index = new Index(indexPath);

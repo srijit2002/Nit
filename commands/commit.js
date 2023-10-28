@@ -18,7 +18,7 @@ const REGULAR_MODE = "100644";
 const EXECUTABLE_MODE = "100755";
 export async function commit(folderPath, message) {
   try {
-    const repoPath = path.resolve(folderPath, "nit");
+    const repoPath = path.resolve(folderPath, ".nit");
     const workspace = new Workspace(path.resolve(repoPath));
     if (!workspace.exists("config")) {
       printMessage(`*** Please tell me who you are.
@@ -29,7 +29,7 @@ export async function commit(folderPath, message) {
     }
     const config = parseConfig(
       fs
-        .readFileSync(path.resolve(folderPath, "nit", "config"))
+        .readFileSync(path.resolve(folderPath, ".nit", "config"))
         .toString("utf8")
     );
 

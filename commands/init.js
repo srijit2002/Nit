@@ -3,7 +3,7 @@ import { folderList } from "../utils/variables.js";
 import path from "path";
 
 export async function init(folderPath) {
-  const repoFolderPath = path.resolve(folderPath, "nit");
+  const repoFolderPath = path.resolve(folderPath, ".nit");
   const { success: rootFolderSuccess, rootFolderMessage } =
     await createDirectory(repoFolderPath);
   if (rootFolderSuccess) {

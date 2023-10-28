@@ -7,8 +7,8 @@ import { MESSAGE_TYPES } from "../utils/variables.js";
 
 export async function log(folderPath) {
   try {
-    const workspace = new Workspace(path.resolve(folderPath, "nit"));
-    const databasePath = path.resolve(folderPath, "nit", "objects");
+    const workspace = new Workspace(path.resolve(folderPath, ".nit"));
+    const databasePath = path.resolve(folderPath, ".nit", "objects");
     let database = new Database(databasePath);
     let head = (await workspace.readFile("HEAD")).toString("utf8");
     let commits = [];

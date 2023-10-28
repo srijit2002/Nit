@@ -4,7 +4,7 @@ export const IGNORE_LIST = [
   ".",
   "..",
   "node_modules",
-  "nit",
+  ".nit",
   ".git",
 ];
 export const COMMANDS = {

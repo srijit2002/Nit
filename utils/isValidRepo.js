@@ -5,7 +5,7 @@ import { MESSAGE_TYPES } from "./variables.js";
 
 export function isValidRepo(folderPath) {
   try {
-    const repoPath = path.resolve(folderPath, "nit");
+    const repoPath = path.resolve(folderPath, ".nit");
     return (
       fs.existsSync(path.resolve(repoPath, "objects")) &&
       fs.existsSync(path.resolve(repoPath, "refs"))

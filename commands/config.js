@@ -6,7 +6,7 @@ import { parseConfig } from "../utils/parseConfig.js";
 export async function config(folderPath, param, value) {
   try {
     const [section, key] = param.split(".");
-    const workspace = new Workspace(path.resolve(folderPath, "nit"));
+    const workspace = new Workspace(path.resolve(folderPath, ".nit"));
     await workspace.ensureFile("config");
     const data = (await workspace.readFile("config")).toString("utf8");
     const config = parseConfig(data);

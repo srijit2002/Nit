@@ -70,7 +70,7 @@ function printDiff(diffs, fileName, oldData, newData) {
 
 export async function diff(repoFolderPath, paths = []) {
   try {
-    const folderPath = path.resolve(repoFolderPath, "nit");
+    const folderPath = path.resolve(repoFolderPath, ".nit");
     let database = new Database(path.resolve(folderPath, "objects"));
     const workspace = new Workspace(repoFolderPath);
     const indexPath = path.resolve(folderPath, "index");
