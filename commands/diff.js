@@ -33,7 +33,6 @@ function formatDiff(oldData, newData) {
 }
 async function listUnstagedFiles(entries, workspace, database, paths) {
   let unStagedFiles = [];
-  console.log(paths);
   let files = await workspace.listFiles();
   for (let file of files) {
     if (entries.has(file) && (paths.size === 0 || paths.has(file))) {

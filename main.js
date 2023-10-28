@@ -14,6 +14,7 @@ import {
   diff,
   log,
 } from "./commands/index.js";
+import { checkout } from "./commands/checkout.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -105,6 +106,19 @@ program
   .description("Pretty-print the contents of the commit logs")
   .action(async () => {
     await log(repoFolderPath);
+  });
+
+program
+  .command(COMMANDS.CHECKOUT)
+  .argument("<filepaths...>")
+  .option("-c <commitId>", "Commit ID to restore the files")
+  .description("Revert a file to the last committed version,")
+  .action(async (paths, option) => {
+    await checkout(
+      repoFolderPath,
+      paths.map((filePath) => path.join(...filePath.split("/"))),
+      option.c
+    );
   });
 
 program.parse(process.argv);

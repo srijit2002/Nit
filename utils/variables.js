@@ -15,6 +15,7 @@ export const COMMANDS = {
   CONFIG: "config",
   DIFF: "diff",
   LOG: "log",
+  CHECKOUT: "checkout",
 };
 
 export const MESSAGE_TYPES = {
