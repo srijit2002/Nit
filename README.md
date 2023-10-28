@@ -89,7 +89,7 @@ Revert a file to the last committed version or a specific commit using the -c op
 6. [Myers Diff Algo](https://blog.robertelder.org/diff-algorithm/)
 7. [The Myers diff algorithm](https://blog.jcoglan.com/2017/02/12/the-myers-diff-algorithm-part-1/)
 8. [Bufferpack](https://github.com/ryanrolds/bufferpack)
-*. [Patience](https://www.buzzfeed.com/audreyworboys/patience-test)
+9. [Patience](https://www.buzzfeed.com/audreyworboys/patience-test)
 
 
 
