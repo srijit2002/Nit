@@ -2,6 +2,8 @@
 
 Nit is a simple version control system built using Node.js. (Step Brother of Git)
 
+[![Edit srijit2002/Nit/main](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/p/github/srijit2002/Nit/main?import=true&embed=1&file=%2Fmain.js&showConsole=true)
+
 ## Installation
 
 To get started, make sure you have latest version of Node.js installed. Then, follow these steps:
