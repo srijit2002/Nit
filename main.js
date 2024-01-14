@@ -16,9 +16,7 @@ import {
 } from "./commands/index.js";
 import { checkout } from "./commands/checkout.js";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-const repoFolderPath = path.resolve(__dirname, "");
+const repoFolderPath = process.cwd();
 const program = new Command();
 
 program
