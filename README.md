@@ -2,6 +2,7 @@
 
 Nit is a simple version control system built using Node.js. (Step Brother of Git)
 
+
 ## Installation
 
 To get started, make sure you have latest version of Node.js installed. Then, follow these steps:
@@ -14,11 +15,15 @@ To get started, make sure you have latest version of Node.js installed. Then, fo
    ```
    cd Nit
    ```
-5. Install the required dependencies by running:
+4. Install the required dependencies by running:
 
    ```
    npm install
    ```
+5. Run the following command
+    ```
+    npm link
+    ``` 
 # Commands and Use Cases
 ### 1. Initialize a Repository  
 Initialize an empty Nit repository in your project directory.
